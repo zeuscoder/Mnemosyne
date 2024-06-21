@@ -21,6 +21,12 @@ FROM nginx:latest
 
 RUN mkdir /app
 
+RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jessie main" > /etc/apt/sources.list.d/jessie.list
+RUN echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
+RUN sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list
+RUN apt-get -o Acquire::Check-Valid-Until=false update
+RUN apt-get install -y vim
+
 RUN rm -f /etc/nginx/conf.d/*
 
 # 将 Vite 项目的 dist 目录复制到 Nginx 的默认静态文件目录
