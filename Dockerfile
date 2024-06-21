@@ -19,8 +19,14 @@ RUN npm run build
 # 使用 Nginx 镜像作为运行时镜像
 FROM nginx:latest
 
+RUN mkdir /app
+
+RUN rm -f /etc/nginx/conf.d/*
+
 # 将 Vite 项目的 dist 目录复制到 Nginx 的默认静态文件目录
-COPY --from=0 /app/dist /usr/share/nginx/html
+COPY --from=0 /app/dist /app
+
+COPY --from=0 /app/deploy/mnemosyne-nginx.conf /etc/nginx/conf.d/mnemosyne-nginx.conf
 
 # 暴露容器的 80 端口
 EXPOSE 80
