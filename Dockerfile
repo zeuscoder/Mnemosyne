@@ -7,6 +7,9 @@ WORKDIR /app
 # 将本地的 Vite 项目文件复制到工作目录
 COPY . .
 
+# npm 源，选用国内镜像源以提高下载速度
+RUN npm config set registry https://registry.npmmirror.com
+
 # 安装依赖
 RUN npm install
 
